@@ -1,0 +1,235 @@
+.calorie_calculator_activities {
+	font-size: 80%;
+}
+
+.calorie_calculator_top_table {
+	font-size:15px;
+	padding: 3% 5% 4% 5%;
+}
+
+.calorie_calculator_rez {
+	color:#009900;
+	font-weight:bold;
+	padding-right: 4em;
+	padding-left: 4em;
+}
+
+.calorie_calculator_activity_box {
+	background-color:#CCCCCC;
+}
+
+.calorie_calculator_activity_title {
+	font-size:90%;
+}
+
+
+.calorie_calculator_results {
+	background-color:#CCCCCC;
+	/*padding: 0% 0% 0% 0%*/
+}
+
+
+.calorie_calculator_minutes_left_error {
+	background-color:#FF0000;
+}
+.calorie_calculator_gender{
+	margin:0;
+	padding: 0 2px 0 2px;
+}
+
+header{
+	background:#35424a;
+	color: #ffffff;
+	padding-top: 30px;
+	min-height: 70px;
+	border-bottom: #e8491d 3px solid;
+}
+
+header #branding{
+	float: left;
+}
+
+header #branding h1{
+	margin: 0;
+	font-size: 2.1em;
+	padding-left: 2em;
+}
+header li{
+	float: left;
+	display: inline;
+	padding: 0 20px 0 20px;
+}
+header nav{
+	float: right;
+	margin-top: 10px;
+}
+header a{
+	color: #ffffff;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 16px;
+}
+
+@media(min-width: 992px)
+.container{
+	max-width:1000px;
+
+}
+@media(min-width: 768px)
+.container{
+	max-width:728px;
+	padding:1em;
+}
+.container {
+	padding-top: 0.4em;
+	padding-right: 3em;
+	padding-left: 3em;
+	margin-right: auto;
+	margin-left: auto;
+	background: white;
+}
+section,div,html,tr,td,body,label,table, span,p,h1,h2,h3,h4,footer{
+	margin:0;
+	padding: 0;
+	border: 0;
+	font-family: "Open Sans","Helvetica Neue", Helvetica, Arial, sans-serif;
+    font: inherit;
+    vertical-align: baseline;
+}
+.space-top{
+	padding-top: .82352941234em;
+	padding-left: 4em;
+	padding-right: 4em;
+}
+@media(min-width: 768px)
+.row{
+	margin-right: -15px;
+	margin-left: -15px;
+	padding-left: 4em;
+	padding-right:4em;
+}
+.group:before, .group:after, .container:before, .container:after, .row:before, .row:after {
+    display: table;
+    content: "";
+}
+.group:after, .container:after, .row:after{
+	clear:both;
+}
+.content {
+	background: #fff;
+}
+.col-12{
+	width: 100%;
+	float: left;
+}
+.col-sm-9; .col-lg-7; .col-12, .col-12,.col-sm-3,.col-lg-2{
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+@media (min-width: 768px)
+.col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
+    float: left;
+}
+.tooltable {
+    border-radius: 5px;
+    background-color: #efefef;
+    padding: 0 3% 2% 3%;
+    border:5px solid #dedede;
+}
+.tooltable h2 {
+	background-color: #0088CC;
+	color: #fff;
+	text-align: center;
+	padding: 5px;
+	margin-left: -3%;
+	margin-right: -3%;
+	font-size: 1em;
+}
+h1 #calc{
+	font-size: 2em;
+}
+.no-space-bottom{
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+body {
+    font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 100%;
+    line-height: 1.470588235;
+    color: #575757;
+    background: #ffffff;
+}
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+	overflow-x: auto;
+	display: block;
+	scrolling:touch;
+}
+.left-block{
+	background-color: #efefef;
+	object-position: left;
+	
+}
+.mid-block{
+	background-color: #efefef;
+	object-position: center;
+	
+}
+.right-block{
+	background-color: #efefef;
+	object-position: right;
+	
+}
+.label-align{
+	margin-bottom: 1.4em;
+}
+p {
+	margin-bottom: 1.529411765em;
+}
+.calwrap {
+	background: #fff;
+	display: inline-block;
+	vertical-align: middle;
+	border:1px solid #ccc;
+	border-radius: 5px;
+	box-shadow: 0 0 5px #ccc;
+	color: #4196D0;
+	font-size: 2em;
+	line-height: 1;
+	font-weight: bold;
+	padding: 3px 6px;
+	text-align: center;
+}
+.biglabel {
+	margin-right: 12px;
+	position: relative;
+	background: rgba(0,0,0,0.1);
+	border-radius: 3px 0 0 3px;
+	padding: 0 4px;
+	display: inline-block;
+}
+.cal{
+	font-size: 9px;
+	line-height: 12px;
+	display: block;
+	color: #666;
+	font-weight: normal;
+	font-family: Helvetica, Arial;
+}
+.biglabel:before{
+	content: " ";
+	display: block;
+	position: absolute;
+	right: -12px;
+	width: 0;
+	height: 0;
+	border-top: 12px solid transparent;
+	border-bottom: 12px solid transparent;
+	border-left: 12px solid rgba(0,0,0,0.1);
+}
