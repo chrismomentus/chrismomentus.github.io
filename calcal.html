@@ -1,0 +1,987 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Calculadora de Calorias</title>
+<link rel="stylesheet" type="text/css" href="/cal/style2c.css">
+<style type="text/css">
+		
+		.displayNone { display:none; }
+		.displayBlock { display:block !important; }
+		#advanced { background-color: #FFFFFF; border: 1px solid #DEDEDE; display: none; font-size: 0.8125em; margin-left: auto; margin-right: auto; max-width: 350px; padding: 2%; }
+		/*.tooltable td { border-width:0; width: 7%;}*/
+		#zigResultsTable td { padding: 0px 4px 0px 4px; border:1px solid #d9d9d9; border-right:0; border-left:0; }
+		#zigResultsTable { width:100%; }
+		.small { font-size:13px; }
+		table.formulas .small { font-size:12px; }
+		#nowwhat { min-width:75%; text-shadow: 0 1px 0 #fff; background: #d6d6d6; background: rgba(0, 0, 0, 0.06); border-radius: 3px; padding: 6px 12px; }
+
+</style>
+</head>
+<body style="position: relative; min-height: 100%; top: 0px;">
+<header>
+	<div class="contents">
+				<div id="branding">
+					<h1 id="calc">Calculadora de Caloria</h1>
+				</div>
+				<nav>
+					<ul>
+						<li><a href="">Home</a></li>
+						<li><a href="">Diario do corpo</a></li>
+						<li><a href="aboutUs.html">About Us</a></li>
+					</ul>
+				</nav>
+			</div>
+</header>
+
+<section id="contentout">
+			<div class="container">
+					<p>
+						A <i>Calculadora de Caloria</i> pode ser usada para saber a relação entre calorias consumidas e gastas a cada dia.
+					</p>
+			</div>
+		</section>
+
+<script language="JavaScript" type="text/javascript">
+
+<!-- hide this script tag's contents from old browsers -->
+function compute_results(form){
+
+	if (!check_form(form)) {
+		return false;
+	}
+  
+	if (form.vlight.value.length == 0){
+		form.vlight.value = "0";
+	}
+	
+	if (form.light.value.length == 0){
+		form.light.value = "0";    
+	}    
+
+	if (form.moderate.value.length == 0){
+		form.moderate.value = "0";
+	}
+
+	if (form.heavy.value.length == 0){
+		form.heavy.value = "0";    
+	}    
+
+	if (form.vheavy.value.length == 0){
+		form.vheavy.value = "0";
+	}
+
+	var us = document.getElementById("mesurement_sys_us");
+	var metric= document.getElementById("mesurement_sys_metric");
+	if (us.checked) {
+		var weight = form.weight.value * 0.45359237;	
+		var height = form.height_feet.value * 30.48 + form.height_inches.value * 2.54 ;
+	} else {
+		var weight = form.weight.value;		
+		var height = form.height_cm.value;
+	}
+	
+
+	var BasalEnergyExpenditureMale = Math.round(66.5 + (13.75 * weight) + (5.003 * height) - (6.775 * form.age.value));	    
+	var BasalEnergyExpenditureFemale = Math.round(655 + (weight * 9.563) + (1.85 * height) - (4.676 * form.age.value));
+	
+
+	var very_light_male = Math.round((BasalEnergyExpenditureMale * 1.4 / 1440) * form.vlight.value);	
+	var light_male = Math.round((BasalEnergyExpenditureMale * 2.5 / 1440) * form.light.value);	
+	var moderate_male = Math.round((BasalEnergyExpenditureMale * 4.2 / 1440) * form.moderate.value);
+	var heavy_male = Math.round((BasalEnergyExpenditureMale * 8.2 / 1440) * form.heavy.value);	
+	var very_heavy_male = Math.round((BasalEnergyExpenditureMale * 12 / 1440) * form.vheavy.value);	
+	
+	var very_light_female = Math.round((BasalEnergyExpenditureFemale * 1.4 / 1440) * form.vlight.value);	
+	var light_female = Math.round((BasalEnergyExpenditureFemale * 2.5 / 1440) * form.light.value);	
+	var moderate_female = Math.round((BasalEnergyExpenditureFemale * 2.5 / 1440) * form.moderate.value);
+	var heavy_female = Math.round((BasalEnergyExpenditureFemale * 2.5 / 1440) * form.heavy.value);	
+	var very_heavy_female = Math.round((BasalEnergyExpenditureFemale * 2.5 / 1440) * form.vheavy.value);
+
+	var wake_male = Math.round(((BasalEnergyExpenditureMale * 1.4) / 1440 * form.vlight.value) + ((BasalEnergyExpenditureMale * 2.5) / 1440 * form.light.value) + ((BasalEnergyExpenditureMale * 4.2) / 1440 * form.moderate.value) + ((BasalEnergyExpenditureMale * 8.2) / 1440 * form.heavy.value) + ((BasalEnergyExpenditureMale * 12) / 1440 * form.vheavy.value));
+	var wake_female = Math.round(((BasalEnergyExpenditureFemale * 1.4) / 1440 * form.vlight.value) + ((BasalEnergyExpenditureFemale * 2.5) / 1440 * form.light.value) + ((BasalEnergyExpenditureFemale * 2.5) / 1440 * form.moderate.value) + ((BasalEnergyExpenditureFemale * 2.5) / 1440 * form.heavy.value) + ((BasalEnergyExpenditureFemale * 2.5) / 1440 * form.vheavy.value));
+
+	var sleep_male = Math.round(1440 - form.vlight.value - form.light.value - form.moderate.value - form.heavy.value - form.vheavy.value);
+    sleep_male = Math.round((BasalEnergyExpenditureMale / 1440) * sleep_male);
+  
+    var sleep_female = Math.round(1440 - form.vlight.value - form.light.value - form.moderate.value - form.heavy.value - form.vheavy.value);
+    sleep_female = Math.round((BasalEnergyExpenditureFemale / 1440) * sleep_female);
+  
+ 
+	var rez_male = document.getElementById("burn_male");
+	var rez_female = document.getElementById("burn_female");
+	
+	rez_male.innerHTML = Math.round((sleep_male * 1) + (wake_male * 1));	
+	rez_female.innerHTML = Math.round((sleep_female * 1) + (wake_female * 1));
+
+	marcela1 = 0;
+	marcela2 = 0;
+
+	marcela1 = Math.round((sleep_male * 1) + (wake_male * 1));
+	marcela2 = Math.round((sleep_female * 1) + (wake_female));
+
+	var tol_male = document.getElementById("res_male");
+	var tol_female = document.getElementById("res_female");
+	
+	tol_male.innerHTML = Math.round((sleep_male * 1) + (wake_male * 1));	
+	tol_female.innerHTML = Math.round((sleep_female * 1) + (wake_female * 1));	
+
+	var sub_male = document.getElementById("pot_male");
+	var sub_female = document.getElementById("pot_female");
+
+	totalvalue=0;
+	obj = document.calc2.chkbox;
+	for(i=0; i < obj.length; i++){
+		if (obj[i].checked) {
+			totalvalue += parseInt(obj[i].value);
+		}
+	}
+
+	sub_male.innerHTML = Math.round((totalvalue * 1) - (marcela1 * 1));
+	sub_female.innerHTML = 	Math.round((totalvalue * 1) - (marcela2 * 1));
+	
+	
+	return;
+
+}
+
+function clear_results(form){    
+	form.age.value = "0";
+	form.weight.value = "0";
+	form.height_feet.value = "0";
+	form.height_feet.value = "0";
+	form.height_cm.value = "0";
+	
+	form.sleep.value = "0";	
+	form.vlight.value = "0";
+	form.light.value = "0";
+	form.moderate.value = "0";
+	form.heavy.value = "0";
+	form.vheavy.value = "0";
+
+	var rez_male = document.getElementById("burn_male");
+	var rez_female = document.getElementById("burn_female");
+
+	rez_male.innerHTML = "";	
+	rez_female.innerHTML = "";	
+	
+	var minutes_left = document.getElementById("minutes_left");
+	minutes_left.innerHTML = "1440"
+
+	switch_to_metric();
+	
+	return;
+
+}
+
+function clear_result2(){
+	
+	/*obj_chked = document.calc2.chkbox;
+	for(i = 0; i< obj_chked.length; i++){
+		if (obj_chked[i].checked) {
+			obj_chked[i].checked = false;
+		}
+
+	}*/
+	document.getElementById("calcu2").reset();
+	var resetsum = document.getElementById("totalsum");
+	resetsum.innerHTML = "";
+	setfinal= document.getElementById("fresults");
+	if(setfinal.style.display === "block"){
+		setfinal.style.display = "none";
+	} else{
+		setfinal.style.display = "none";
+	}
+}
+
+function getsum(form){
+	totalvalue=0;
+	obj = document.calc2.chkbox;
+	for(i=0; i < obj.length; i++){
+		if (obj[i].checked) {
+			totalvalue += parseInt(obj[i].value);
+		}
+	}
+	var tsum = document.getElementById("totalsum");
+	var consum = document.getElementById("conanswer");
+	if (totalvalue == 0) {
+		alert("Por favor, seleciona pelo menos uma comida !!");
+		//document.calc2.totalsum.value = "";
+		tsum.value ="";
+		consum.value="";
+	}
+	else{
+		//document.calc2.totalsum.value = totalvalue;
+		tsum.value = totalvalue;
+		consum.value = totalvalue;
+	}
+
+	//var intake_sum = document.getElementById("totalsum");
+	//intake_sum.innerHTML = Math.round(totalvalue);
+	tsum.innerHTML = Math.round(totalvalue);
+	consum.innerHTML = Math.round(totalvalue);
+
+	return;
+}
+
+function switch_to_metric() {
+	var us = document.getElementById("height_us");
+	var metric = document.getElementById("height_metric");
+	
+	us.style.display = 'none';
+	metric.style.display = 'block';
+	
+	var weight_us = document.getElementById("weight_us");
+	var weight_metric = document.getElementById("weight_metric");
+
+	weight_us.style.display = 'none';
+	weight_metric.style.display = 'inline';		
+	
+	var height_centimeters = document.getElementById("height_centimeters");	
+	height_centimeters.style.display = 'inline';
+	
+	var us = document.getElementById("mesurement_sys_us");
+	var metric = document.getElementById("mesurement_sys_metric");
+	us.checked = false;
+	metric.checked = true;
+	
+	form.weight.value = "0";
+	form.height_feet.value = "0";
+	form.height_feet.value = "0";
+	form.height_cm.value = "0";	
+	
+	return true;
+}
+
+function switch_to_us() {
+	var us = document.getElementById("height_us");
+	var metric = document.getElementById("height_metric");
+
+	us.style.display = 'block';
+	metric.style.display = 'none';		
+
+	var weight_us = document.getElementById("weight_us");
+	var weight_metric = document.getElementById("weight_metric");
+
+	weight_us.style.display = 'inline';
+	weight_metric.style.display = 'none';
+
+	var height_centimeters = document.getElementById("height_centimeters");	
+	height_centimeters.style.display = 'none';
+
+	var us = document.getElementById("mesurement_sys_us");
+	var metric = document.getElementById("mesurement_sys_metric");
+	us.checked = true;
+	metric.checked = false;
+	
+	form.weight.value = "0";
+	form.height_feet.value = "0";
+	form.height_feet.value = "0";
+	form.height_cm.value = "0";
+		
+	return true;
+} 
+
+
+
+
+function recalc_minutes_left(field) {
+	var form = field.form;
+
+	if (check_value(field)) {
+		var minutes_left = document.getElementById("minutes_left");
+		var sleep = form.sleep.value;	
+		var vlight = form.vlight.value;
+		var light = form.light.value;
+		var moderate = form.moderate.value;
+		var heavy = form.heavy.value;
+		var vheavy = form.vheavy.value;
+		
+		var left = 1440 - sleep - vlight - light - moderate - heavy - vheavy;
+		minutes_left.innerHTML = left;
+
+		if (left == 0) {
+			minutes_left.className = '';
+		} else {
+			minutes_left.className = 'calorie_calculator_minutes_left_error';		
+		}
+		
+		var ret = true;
+	} else {
+		var ret = false;	
+	}
+
+	return ret;
+}
+
+
+function final_results(){
+	var ent = document.getElementById("fresults");
+	if (ent.style.display === "none") {
+		ent.style.display = "block";
+	} else{
+		ent.style.display = "block";
+	}
+}
+
+
+function clear_results_calorie_form(form) {
+	clear_results(form);
+}
+
+
+function check_value(field) {
+	var ret = true;
+	if ((parseInt(field.value)).toString() == field.value.toString()) { // checking for integer
+		if (field.value < 0) {
+			alert('Favor, Digite Valor Positivo (i.e. Maior que zero)');
+			field.value = "0";
+			ret = false;
+		}
+	} else {
+		alert('Favor, Digite com valores Numerais.');
+		field.value = "0";		
+		ret = false;		
+	}
+
+	return ret;
+}
+
+
+function check_form(form) {
+	var ret = false;
+	
+	var us = document.getElementById("mesurement_sys_us");
+	var metric = document.getElementById("mesurement_sys_metric");
+	if (us.checked) {
+		var weight = form.weight.value;	
+		var height = form.height_feet.value;
+	} else {
+		var weight = form.weight.value;		
+		var height = form.height_cm.value;
+	}
+	
+	if (form.age.value > 0) {
+		if (height > 0) {
+			if (weight > 0 ) {
+				if (form.sleep.value > 0) {
+					var minutes_left = parseInt(document.getElementById("minutes_left").innerHTML);
+					
+					if (minutes_left > 0) {
+						
+						alert('A Soma de minutos das suas atividades por dia não igual a 1440 minutos (24h). Voce precisa distribuir mais' + minutes_left + ' minutos. "Minutos a ser distribuidos" deve ser igual a Zero.');
+					} else {
+						if (minutes_left < 0) {
+							alert('A Soma de minutos das suas atividades por dia é mais que 1440 minutos (24h). Favor, corrija a distribuição. "Minutos a ser distribuidos" deve ser igual a Zero.');
+						} else {
+							ret = true;
+						}
+					}
+				} else {
+					alert('favor, Entra quantas horas que dormir por dia (valor maior que Zero).');							
+				}
+			} else {
+				alert('Digite seu Peso.');			
+			}
+		} else {
+			alert('Digite seu Tamanho.');
+		}
+	} else {
+		alert('Digite sua Idade.');	
+	}
+	
+	return ret;
+}
+
+</script>
+
+<section class="container">
+	<div class="row space-top content">
+		<span id="ucframe"></span>
+		<div class="col-12 col-sm-9 col-lg-7">
+			<div class="tooltable">
+				<form name="calc" class="no-space-bottom">
+					<h2>CALCULADORA DE GASTO DÍARIO DE CALORIAS</h2>
+					<table align="center" class="calorie_calculator_top_table">
+					    <tr>
+					        <td>
+					            <form method="post" action="#" class="calorie_calculator" id="calorie_calculator_form">
+					                <table align="center" >
+					                    <tr>
+					                        <td align="center">
+					                            <table border="0" cellspacing="0" cellpadding="5">
+					                                <tr>
+					                                    <td>
+					                                        <table border="0" cellspacing="0" cellpadding="0">
+					                                            <tr>
+					                                                <td>Escolhe um Sistema de Medida:</td>
+					                                            </tr>
+					                                            <tr>
+					                                                <td>
+					                                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+					                                                    	<tr>
+					                                                            <td>
+					                                                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+					                                                                    <tr>
+					                                                                        <td width="1">
+					                                                                            <input type="radio" name="mesurement_sys" value="radio" id="mesurement_sys_metric" onclick="switch_to_metric(this.form);" checked="checked" />
+					                                                                        </td>
+					                                                                        <td align="left">Metric</td>
+					                                                                    </tr>
+					                                                                </table>
+					                                                            </td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td>
+					                                                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+					                                                                    <tr>
+					                                                                        <td width="1">
+					                                                                            <input type="radio" name="mesurement_sys" value="radio" id="mesurement_sys_us" onclick="switch_to_us(this.form);"/>
+					                                                                        </td>
+					                                                                        <td align="left">US / Imperial</td>
+					                                                                    </tr>
+					                                                                </table>
+					                                                            </td>
+					                                                        </tr>
+					                                                        
+					                                                    </table>
+					                                                </td>
+					                                            </tr>
+					                                        </table>
+					                                    </td>
+					                                </tr>
+					                                <tr>
+					                                    <td align="center">
+					                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+					                                            <tr>
+					                                                <td valign="bottom" align="center" width="33%">
+					                                                    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+					                                                        <tr>
+					                                                            <td align="center" valign="top">Idade</td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center">
+					                                                                <input name="age" size="6" value="0"  onfocus="if (this.value == '0') this.value = ''" />
+					                                                            </td>
+					                                                        </tr>
+					                                                    </table>
+					                                                </td>
+					                                                <td valign="bottom" align="center" width="33%">
+					                                                    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+					                                                        <tr>
+					                                                            <td align="center">Peso (<span id="weight_metric" style="display:inline;">kg</span><span id="weight_us" style="display: none">pounds</span>)</td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center">
+					                                                                <input name="weight" size="6" value="0"  onfocus="if (this.value == '0') this.value = ''" />
+					                                                            </td>
+					                                                        </tr>
+					                                                    </table>
+					                                                </td>
+					                                                <td valign="bottom" align="center" width="33%">
+					                                                    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+					                                                        <tr>
+					                                                            <td align="center">Atura <span id="height_centimeters" style="display:inline;">(centímetros)</span></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center" valign="bottom">
+					                                                                <div id="height_us" style="display:none;">
+					                                                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+					                                                                        <tr>
+					                                                                            <td align="center">Feet</td>
+					                                                                            <td align="center">Inches</td>
+					                                                                        </tr>
+					                                                                        <tr>
+					                                                                            <td align="center">
+					                                                                                <input name="height_feet" size="6" value="0"  onfocus="if (this.value == '0') this.value = ''" />
+					                                                                            </td>
+					                                                                            <td align="center">
+					                                                                                <input name="height_inches" size="6" value="0"  onfocus="if (this.value == '0') this.value = ''" />
+					                                                                            </td>
+					                                                                        </tr>
+					                                                                    </table>
+					                                                                </div>
+					                                                                <div id="height_metric" style="display:block;">
+																						<input name="height_cm" size="6" value="0"  onfocus="if (this.value == '0') this.value = ''" />
+					                                                                </div>
+					                                                            </td>
+					                                                        </tr>
+					                                                    </table>
+					                                                </td>
+					                                            </tr>
+					                                        </table>
+					                                    </td>
+					                                </tr>
+					                                <tr>
+							                			<td>&nbsp;</td>
+							                		</tr>
+					                                <tr>
+					                                    <td align="center">
+					                                        <table width="100%" border="0" cellspacing="1" cellpadding="4">
+					                                            <tr>
+					                                                <td align="center" colspan="6"><strong>Atividades por dia em Minutos ( 24h = 1440 min)</strong></td>
+					                                            </tr>
+					                                            <tr>
+					                                                <td align="center" colspan="6">Minutos que faltam ser distribuídos: <span id="minutes_left" class="calorie_calculator_minutes_left_error">1440</span></td>
+					                                            </tr>                                            
+					                                            <tr>
+					                                                <td width="16%" valign="top" class="calorie_calculator_activity_box">
+					                                                    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+					                                                        <tr>
+					                                                            <td align="center"><span class="calorie_calculator_activity_title">Dormindo</span></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center"><input name="sleep" size="4" value="0" onchange="recalc_minutes_left(this);" onfocus="if (this.value == '0') this.value = ''" /></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center">&nbsp;</td>
+					                                                        </tr>
+					                                                    </table>
+					                                                </td>                                            
+					                                                <td width="16%" valign="top" class="calorie_calculator_activity_box">
+					                                                    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+					                                                        <tr>
+					                                                            <td align="center"><span class="calorie_calculator_activity_title">Bem Leve</span></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center"><input name="vlight" size="4" value="0" onchange="recalc_minutes_left(this);" onfocus="if (this.value == '0') this.value = ''" /></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center" class="calorie_calculator_activities">
+					                                                            	Estudando<br />
+					                                                                Lazer<br />
+																					Dirigindo<br />
+					                                                                Alimentando<br />
+					                                                                Conversando<br />
+					                                                                Assitindo TV<br />
+					                                                                
+					                                                            </td>
+					                                                        </tr>
+					                                                    </table>
+					                                                </td>
+					                                                <td width="16%" valign="top" class="calorie_calculator_activity_box">
+					                                                    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+					                                                        <tr>
+					                                                            <td align="center"><span class="calorie_calculator_activity_title">Leve</span></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center"><input name="light" size="4" value="0" onchange="recalc_minutes_left(this);" onfocus="if (this.value == '0') this.value = ''" /></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center" class="calorie_calculator_activities">
+					                                                            	Caminhando<br />
+					                                                                Limpando<br />
+					                                                                Cozinhando<br />
+					                                                                Anda Bicicleta devaga<br />
+					                                                            </td>
+					                                                        </tr>
+					                                                    </table>
+					                                                </td>
+					                                                <td width="16%" valign="top" class="calorie_calculator_activity_box">
+					                                                    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+					                                                        <tr>
+					                                                            <td align="center"><span class="calorie_calculator_activity_title">Moderado</span></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center"><input name="moderate" size="4" value="0" onchange="recalc_minutes_left(this);" onfocus="if (this.value == '0') this.value = ''" /></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center" class="calorie_calculator_activities">
+					                                                            	Caminhando mais rapido<br />
+					                                                                Dançando<br />
+					                                                                Levantando objetos pesados<br />
+					                                                                Sexo
+					                                                            </td>
+					                                                        </tr>
+					                                                    </table>
+
+					                                                </td>
+					                                                <td width="16%" valign="top" class="calorie_calculator_activity_box">
+					                                                    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+					                                                        <tr>
+					                                                            <td align="center"><span class="calorie_calculator_activity_title">Pesado</span></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center"><input name="heavy" size="4" value="0" onchange="recalc_minutes_left(this);" onfocus="if (this.value == '0') this.value = ''" /></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center" class="calorie_calculator_activities">
+					                                                            	Natação<br />
+					                                                                Correndo<br />
+					                                                                Basquetebol/Futebol<br />
+					                                                                Anda de Bicicleta rapido<br />
+					                                                                Academia<br />
+					                                                            </td>
+					                                                        </tr>
+					                                                    </table>
+					                                                </td>
+					                                                <td width="16%" valign="top" class="calorie_calculator_activity_box">
+					                                                    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+					                                                        <tr>
+					                                                            <td align="center"><span class="calorie_calculator_activity_title">Bem Pesado</span></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center"><input name="vheavy" size="4" value="0" onchange="recalc_minutes_left(this);" onfocus="if (this.value == '0') this.value = ''" /></td>
+					                                                        </tr>
+					                                                        <tr>
+					                                                            <td align="center" class="calorie_calculator_activities">
+					                                                            	Boxe<br />
+					                                                                Actividades bem pesadas
+					                                                            </td>
+					                                                        </tr>
+					                                                    </table>
+					                                                </td>
+					                                            </tr>
+					                                        </table>
+														</td>
+													</tr>                                
+					                            </table>
+					                        </td>
+					                    </tr>
+					                    <tr>
+					                        <td align="center">
+					                            <table width="100%" border="0" cellspacing="0" cellpadding="4">
+					                                <tr>
+					                                    <td align="center"><strong>Resultados</strong></td>
+					                                </tr>
+					                                <tr>
+					                                    <td align="center">
+					                                        <table width="100%" border="0" cellspacing="1" cellpadding="4">
+					                                            <tr>
+					                                                <td width="100%">&nbsp;</td>
+					                                                <td class="calorie_calculator_gender" width="9%">Masculino</td>
+					                                                <td class="calorie_calculator_gender" width="9%">Feminina</td>
+					                                            </tr>
+					                                            <tr>
+					                                                <td align="right">Kilocalorias que você queima por dia (24h):</td>
+					                                                <td align="left" class="calorie_calculator_results"><span id="burn_male" class="calorie_calculator_rez"></span></td>
+					                                                <td align="left" class="calorie_calculator_results"><span id="burn_female" class="calorie_calculator_rez"></span></td>
+					                                            </tr>
+					                                        </table>
+					                                    </td>
+					                                </tr>
+					                            </table>
+					                        </td>
+					                    </tr>
+					                    
+					                    <tr>
+					                    	<td>&nbsp;</td>
+					                    </tr>
+					                    
+					                </table>
+					            </form>
+					        </td>
+					    </tr>
+					</table>
+				</form>
+			</div>
+			<div class="tooltable">
+				<form name="calc2" id="calcu2" class="no-space-bottom">
+					<h2>CALCULADORA DE CONSUMO DÍARIO DE CALORIAS</h2>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<tr>
+                    			<td>&nbsp;</td>
+                    		</tr>
+							<td width="2%" > 
+								<div align="right" class="left-block">
+									<div class="label-align">
+										<label>ARROZ</label>
+										<input type="checkbox" name="chkbox" value="32.25" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>FEIJÃO</label>
+										<input type="checkbox" name="chkbox" value="107.80" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>MACARRÃO</label>
+										<input type="checkbox" name="chkbox" value="93.75" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>BATATA FRITA</label>
+										<input type="checkbox" name="chkbox" value="405.00" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>PÃO</label>
+										<input type="checkbox" name="chkbox" value="243.12" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>PIZZA</label>
+										<input type="checkbox" name="chkbox" value="191.00" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>MANDIOCA</label>
+										<input type="checkbox" name="chkbox" value="125.00" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>HAMBÚRGUER</label>
+										<input type="checkbox" name="chkbox" value="131.04" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>SALGADOS</label>
+										<input type="checkbox" name="chkbox" value="135.30" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>BISCOITO/BOLACHA</label>
+										<input type="checkbox" name="chkbox" value="40.82" style="width: 20px;height: 20px">
+									</div>
+								</div>
+							</td>
+							<td width="5%" > 
+								<div align="right" class="left-block">
+									<div class="label-align">
+										<label>FRANGO</label>
+										<input type="checkbox" name="chkbox" value="145.03" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>CARNE DE BOI</label>
+										<input type="checkbox" name="chkbox" value="266.00" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>CARNE PORCO</label>
+										<input type="checkbox" name="chkbox" value="259.65" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>CAMARÃO</label>
+										<input type="checkbox" name="chkbox" value="27.00" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>PEIXE</label>
+										<input type="checkbox" name="chkbox" value="372.00" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>OVOS</label>
+										<input type="checkbox" name="chkbox" value="69.35" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>VÍSCERAS</label>
+										<input type="checkbox" name="chkbox" value="131.84" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>QUEIJO</label>
+										<input type="checkbox" name="chkbox" value="60.60" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>SALSICHA/LINGUIÇA</label>
+										<input type="checkbox" name="chkbox" value="126.47" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>MANTEIGA/MAIONESE</label>
+										<input type="checkbox" name="chkbox" value="24.29" style="width: 20px;height: 20px">
+									</div>
+								</div>
+							</td>
+							<td width="5%" >
+								<div align="right" padding=15px; class="mid-block">
+									<div class="label-align">
+										<label>ABACAXI</label>
+										<input type="checkbox" name="chkbox" value="36.00" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>MAÇA</label>
+										<input type="checkbox" name="chkbox" value="72.80" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>LARANJA</label>
+										<input type="checkbox" name="chkbox" value="66.15" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>BANANA</label>
+										<input type="checkbox" name="chkbox" value="72.38" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>GOIABA</label>
+										<input type="checkbox" name="chkbox" value="90.10" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>UVA</label>
+										<input type="checkbox" name="chkbox" value="178.50" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>MAMÃO</label>
+										<input type="checkbox" name="chkbox" value="72.25" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>MANGA</label>
+										<input type="checkbox" name="chkbox" value="80.50" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>TOMATE</label>
+										<input type="checkbox" name="chkbox" value="15.00" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>ALFACE</label>
+										<input type="checkbox" name="chkbox" value="1.13" style="width: 20px;height: 20px">
+									</div>
+								</div>
+							</td>
+							<td width="6%">
+								<div align="right" class="right-block">
+									<div class="label-align">
+										<label>CAFÉ</label>
+										<input type="checkbox" name="chkbox" value="18.00" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>REFRIGERANTE NORMAL</label>
+										<input type="checkbox" name="chkbox" value="95.40" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>SUCO NATURAL</label>
+										<input type="checkbox" name="chkbox" value="75.19" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>LEITE</label>
+										<input type="checkbox" name="chkbox" value="147.36" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>SORVETE</label>
+										<input type="checkbox" name="chkbox" value="144.00" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>IOGURTE</label>
+										<input type="checkbox" name="chkbox" value="102.00" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>CERVEJA</label>
+										<input type="checkbox" name="chkbox" value="118.90" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>VINHO</label>
+										<input type="checkbox" name="chkbox" value="172.80" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>BOLO/CUCAS</label>
+										<input type="checkbox" name="chkbox" value="210.80" style="width: 20px;height: 20px">
+									</div>
+									<div class="label-align">
+										<label>CHOCOLATE BARRA/BOMBOM</label>
+										<input type="checkbox" name="chkbox" value="136.41" style="width: 20px;height: 20px">
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+					<table >
+                        <tr>
+                            <td align="center"><strong>Resultados</strong></td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <table >
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td class="calorie_calculator_gender" >Masculino/Feminina</td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td align="right">Kilocalorias que você consume por dia (24h):</td>
+                                        
+                                        <td align="left" class="calorie_calculator_results"><span id="totalsum" class="calorie_calculator_rez"></span></td>
+                                        
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+					<tr>
+                    	<td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                    	<td>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td align="left"><input type="button" value="Calcular" name="button1" onclick="compute_results(calc); getsum(calc2); final_results(); return false;" /></td>
+                                    <td width="50">&nbsp;</td>
+                                    <td align="right"><input type="button" value="Limpar dados." name="button2" onclick=" clear_result2(); clear_results(calc); return false;" /></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+				</form>
+			</div>
+			<div class="tooltable" id="fresults" style="display: none;">
+				<table name="calc3" class="no-space-bottom">
+					<h2>RESULTADOS</h2>
+					<p></p>
+					<div>
+						<tr>
+							<td align="right" class="tooltable-cell-width">
+								<label class="biglabel">Caloria Gasto</label>
+							</td>
+							<td align="left" class="tooltable-cell-width">
+								<div class="calwrap">
+								<table>
+								<tr>
+								<td>
+									<span id="res_male"></span>&nbsp;
+									<span id="call" class="cal"> Masculino</span>
+								</td>
+								<td>
+									&nbsp;<span id="res_female"></span>
+									<span id="call" class="cal">Feminino</span>
+								</td>
+								</tr>
+								</table>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" class="tooltable-cell-width">
+								<label class="biglabel">Caloria Consumo</label>
+							</td>
+							<td align="left" class="tooltable-cell-width">
+								<div class="calwrap">
+								<table>
+								<tr>
+								<td>
+									<span id="conanswer"></span>
+									<span id="call" class="cal">Caloria/dia</span>
+								</tr>
+								</table>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" class="tooltable-cell-width">
+								<label class="biglabel">Caloria Potencial</label>
+							</td>
+							<td align="left" class="tooltable-cell-width">
+								<div class="calwrap">
+								<table>
+								<tr>
+								<td>
+									<span id="pot_male"></span>&nbsp;
+									<span id="call" class="cal">Potencial Masculino</span>
+								</td>
+								<td>
+									&nbsp;<span id="pot_female"></span>
+									&nbsp;<span id="call" class="cal">Potencial Feminino</span>
+								</td>
+								</tr>
+								</table>
+								</div>
+							</td>
+						</tr>
+					</div>
+				</table>
+			</div>
+		</div>
+	</div>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<footer>
+		<p>Ltc/Nutes, Copyright &copy; 2017</p>
+		<p>Autor: Chris G. Chinedozie
+	</footer>
+</section>
+<script language="JavaScript" type="text/javascript">
+
+var form = document.getElementById("calorie_calculator_form");
+
+//switch_to_us(form);
+clear_results_calorie_form(form);
+
+</script>
+</body>
+</html>
